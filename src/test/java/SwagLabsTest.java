@@ -16,7 +16,7 @@ public class SwagLabsTest implements IAbstractTest {
         };
     }
 
-    @Test(dataProvider = "Credentials", enabled = false)
+    @Test(dataProvider = "Credentials")
     public void verifyCorrectLoginTest(String username, String password) {
         SoftAssert sa = new SoftAssert();
         LoginPage loginPage = new LoginPage(getDriver());
