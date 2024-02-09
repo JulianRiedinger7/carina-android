@@ -27,6 +27,7 @@ public class CheckoutOverviewPage extends AbstractPage implements IMobileUtils {
     }
 
     public CheckoutCompletePage clickFinishBtn() {
+        swipeToFinishBtn();
         finishBtn.click();
         return new CheckoutCompletePage(driver);
     }

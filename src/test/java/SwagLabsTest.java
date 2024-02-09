@@ -64,7 +64,6 @@ public class SwagLabsTest implements IAbstractTest {
 
         CheckoutOverviewPage checkoutOverviewPage = checkoutInformationPage.clickContinueBtn();
         Assert.assertTrue(checkoutOverviewPage.productTitleContains(productTitle), "The checkout product title does not contain " + productTitle);
-        checkoutOverviewPage.swipeToFinishBtn();
 
         CheckoutCompletePage checkoutCompletePage = checkoutOverviewPage.clickFinishBtn();
         Assert.assertTrue(checkoutCompletePage.isTitleCorrect("Thank you for you order"), "The checkout complete title is not correct");
