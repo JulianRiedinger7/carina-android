@@ -3,10 +3,12 @@ import components.carinademo.SideNav;
 import components.carinademo.Toolbar;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.carinademo.ChartsPage;
-import pages.carinademo.WebViewPage;
-import pages.carinademo.LoginPage;
-import pages.carinademo.WelcomePage;
+import pages.carinademo.android.ChartsPage;
+import pages.carinademo.android.WebViewPage;
+import pages.carinademo.android.LoginPage;
+import pages.carinademo.android.WelcomePage;
+import pages.carinademo.common.LoginPageBase;
+import pages.carinademo.common.WebViewPageBase;
 
 public class CarinaDemoTest implements IAbstractTest {
 
@@ -16,13 +18,13 @@ public class CarinaDemoTest implements IAbstractTest {
 
         Assert.assertTrue(welcomePage.isNextBtnClickable(), "Next button is not clickable");
 
-        LoginPage loginPage = welcomePage.clickNextBtn();
+        LoginPageBase loginPage = welcomePage.clickNextBtn();
 
         loginPage.enterName("Julian");
         loginPage.enterPassword("123");
         loginPage.selectRadioMale();
         loginPage.acceptPrivacyPolicy();
-        WebViewPage webViewPage = loginPage.clickLoginBtn();
+        WebViewPageBase webViewPage = loginPage.clickLoginBtn();
 
         Toolbar toolbar = webViewPage.getToolbar();
 
@@ -33,9 +35,9 @@ public class CarinaDemoTest implements IAbstractTest {
     public void verifyNavigationToChartsTest() {
         WelcomePage welcomePage = new WelcomePage(getDriver());
 
-        LoginPage loginPage = welcomePage.clickNextBtn();
+        LoginPageBase loginPage = welcomePage.clickNextBtn();
 
-        WebViewPage webViewPage = loginPage.login("J", "1");
+        WebViewPageBase webViewPage = loginPage.login("J", "1");
 
         Toolbar toolbar = webViewPage.getToolbar();
         toolbar.clickHamburgerMenu();

@@ -1,12 +1,15 @@
-package pages.swaglabs;
+package pages.swaglabs.android;
 
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import pages.swaglabs.common.HomePageBase;
+import pages.swaglabs.common.LoginPageBase;
 
-public class LoginPage extends AbstractPage implements IMobileUtils {
+@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = LoginPageBase.class)
+public class LoginPage extends LoginPageBase implements IMobileUtils {
 
     @FindBy(xpath = "//android.widget.EditText[@content-desc=\"test-Username\"]")
     private ExtendedWebElement usernameInput;
@@ -21,32 +24,39 @@ public class LoginPage extends AbstractPage implements IMobileUtils {
         super(driver);
     }
 
+    @Override
     public void swipeInput() {
         swipe(usernameInput, Direction.UP);
     }
 
+    @Override
     public boolean isUsernameInputVisible() {
         return usernameInput.isVisible();
     }
 
+    @Override
     public boolean isPasswordInputVisible() {
         return passwordInput.isVisible();
     }
 
+    @Override
     public void enterUsername(String username) {
         usernameInput.type(username);
     }
 
+    @Override
     public void enterPassword(String password) {
         passwordInput.type(password);
     }
 
-    public HomePage clickLoginBtn() {
+    @Override
+    public HomePageBase clickLoginBtn() {
         loginBtn.click();
-        return new HomePage(driver);
+        return initPage(driver, HomePageBase.class);
     }
 
-    public HomePage login(String username, String password) {
+    @Override
+    public HomePageBase login(String username, String password) {
         enterUsername(username);
         enterPassword(password);
         return clickLoginBtn();

@@ -1,11 +1,15 @@
-package pages.carinademo;
+package pages.carinademo.android;
 
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import pages.carinademo.common.LoginPageBase;
+import pages.carinademo.common.WebViewPageBase;
 
-public class LoginPage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = LoginPageBase.class)
+public class LoginPage extends LoginPageBase {
 
     @FindBy(id = "name")
     private ExtendedWebElement nameInput;
@@ -29,28 +33,34 @@ public class LoginPage extends AbstractPage {
         super(driver);
     }
 
+    @Override
     public void enterName(String name) {
         nameInput.type(name);
     }
 
+    @Override
     public void enterPassword(String password) {
         passwordInput.type(password);
     }
 
+    @Override
     public void selectRadioMale() {
         radioMale.click();
     }
 
+    @Override
     public void acceptPrivacyPolicy() {
         privacySwitch.click();
     }
 
-    public WebViewPage clickLoginBtn() {
+    @Override
+    public WebViewPageBase clickLoginBtn() {
         loginBtn.click();
-        return new WebViewPage(driver);
+        return initPage(driver, WebViewPageBase.class);
     }
 
-    public WebViewPage login(String name, String password) {
+    @Override
+    public WebViewPageBase login(String name, String password) {
         enterName(name);
         enterPassword(password);
         selectRadioMale();

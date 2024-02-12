@@ -1,11 +1,10 @@
 import com.zebrunner.carina.core.IAbstractTest;
 import components.swaglabs.Product;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import pages.swaglabs.*;
+import pages.swaglabs.common.*;
 
 public class SwagLabsTest implements IAbstractTest {
 
@@ -19,14 +18,14 @@ public class SwagLabsTest implements IAbstractTest {
     @Test(dataProvider = "Credentials")
     public void verifyCorrectLoginTest(String username, String password) {
         SoftAssert sa = new SoftAssert();
-        LoginPage loginPage = new LoginPage(getDriver());
+        LoginPageBase loginPage = initPage(LoginPageBase.class);
 
         Assert.assertTrue(loginPage.isUsernameInputVisible(), "Username input is not visible");
         Assert.assertTrue(loginPage.isPasswordInputVisible(), "Password input is not visible");
 
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
-        HomePage homePage = loginPage.clickLoginBtn();
+        HomePageBase homePage = loginPage.clickLoginBtn();
 
         sa.assertTrue(homePage.isCartIconVisible(), "Cart icon is not visible");
         sa.assertAll();
@@ -35,11 +34,11 @@ public class SwagLabsTest implements IAbstractTest {
     @Test(dataProvider = "Credentials")
     public void verifyCorrectPurchaseTest(String username, String password) {
         SoftAssert sa = new SoftAssert();
-        LoginPage loginPage = new LoginPage(getDriver());
+        LoginPageBase loginPage = initPage(LoginPageBase.class);
         int productNumber = 0;
         String productTitle = "Sauce Labs Backpack";
 
-        HomePage homePage = loginPage.login(username, password);
+        HomePageBase homePage = loginPage.login(username, password);
 
         Product product = homePage.getProduct(productNumber);
 
@@ -49,10 +48,10 @@ public class SwagLabsTest implements IAbstractTest {
         product.clickAddToCartBtn();
         sa.assertTrue(homePage.isCartBadgeCorrect(1));
 
-        CartPage cartPage = homePage.clickCartIcon();
+        CartPageBase cartPage = homePage.clickCartIcon();
         Assert.assertTrue(cartPage.productTitleContains(productTitle), "The cart product title does not contain " + productTitle);
 
-        CheckoutInformationPage checkoutInformationPage = cartPage.clickCheckoutBtn();
+        CheckoutInformationPageBase checkoutInformationPage = cartPage.clickCheckoutBtn();
 
         Assert.assertTrue(checkoutInformationPage.isFirstNameInputVisible(), "First name input is not visible");
         Assert.assertTrue(checkoutInformationPage.isLastNameInputVisible(), "Last name input is not visible");
@@ -62,10 +61,10 @@ public class SwagLabsTest implements IAbstractTest {
         checkoutInformationPage.enterLastName("Perez");
         checkoutInformationPage.enterPostalCode("1000");
 
-        CheckoutOverviewPage checkoutOverviewPage = checkoutInformationPage.clickContinueBtn();
+        CheckoutOverviewPageBase checkoutOverviewPage = checkoutInformationPage.clickContinueBtn();
         Assert.assertTrue(checkoutOverviewPage.productTitleContains(productTitle), "The checkout product title does not contain " + productTitle);
 
-        CheckoutCompletePage checkoutCompletePage = checkoutOverviewPage.clickFinishBtn();
+        CheckoutCompletePageBase checkoutCompletePage = checkoutOverviewPage.clickFinishBtn();
         Assert.assertTrue(checkoutCompletePage.isTitleCorrect("Thank you for you order"), "The checkout complete title is not correct");
         sa.assertTrue(checkoutCompletePage.isBackHomeBtnClickable(), "The checkout complete back home button is not clickable");
 

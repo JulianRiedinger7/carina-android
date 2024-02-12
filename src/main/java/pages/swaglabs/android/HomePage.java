@@ -1,17 +1,20 @@
-package pages.swaglabs;
+package pages.swaglabs.android;
 
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import components.swaglabs.Product;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.swaglabs.common.CartPageBase;
+import pages.swaglabs.common.HomePageBase;
 
 import java.time.Duration;
 import java.util.List;
 
-public class HomePage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = HomePageBase.class)
+public class HomePage extends HomePageBase {
 
     @FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"test-Item\"]")
     private List<Product> productList;
@@ -26,18 +29,22 @@ public class HomePage extends AbstractPage {
         super(driver);
     }
 
-    private int getProductListSize() {
+    @Override
+    protected int getProductListSize() {
         return productList.size();
     }
 
+    @Override
     public boolean isCartIconVisible() {
         return cartIcon.isVisible();
     }
 
+    @Override
     public boolean isCartBadgeCorrect(int itemsNumber) {
         return cartBadge.getText().equalsIgnoreCase(String.valueOf(itemsNumber));
     }
 
+    @Override
     public Product getProduct(int index) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(new ExpectedCondition<Boolean>() {
@@ -49,9 +56,10 @@ public class HomePage extends AbstractPage {
         return productList.get(index);
     }
 
-    public CartPage clickCartIcon() {
+    @Override
+    public CartPageBase clickCartIcon() {
         cartIcon.click();
-        return new CartPage(driver);
+        return initPage(driver, CartPageBase.class);
     }
 
 }

@@ -5,7 +5,7 @@ import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import pages.carinademo.ChartsPage;
+import pages.carinademo.android.ChartsPage;
 
 public class SideNav extends AbstractUIObject {
 
